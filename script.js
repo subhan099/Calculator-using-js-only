@@ -322,18 +322,51 @@ function calculate(value) {
   const arr = value.split(/([\+\-\*\/])/);
   const len = arr.length - 1;
   let i = 0;
+  let ans = 0;
+  for (i = 1; i <= len - 1; i++) {
+    if (arr[i] == "/") {
+      arr[i + 1] = divide(arr[i - 1], arr[i + 1]);
+      arr[i] = arr[i + 1];
+      arr[i - 1] = arr[i];
+      ans = arr[i];
+    }
+  }
+  for (i = 1; i <= len - 1; i++) {
+    if (arr[i] == "*") {
+      arr[i + 1] = multiply(arr[i - 1], arr[i + 1]);
+      arr[i] = arr[i + 1];
+      arr[i - 1] = arr[i];
+      ans = arr[i];
+    }
+  }
+  for (i = 1; i <= len - 1; i++) {
+    if (arr[i] == "+") {
+      arr[i + 1] = sum(arr[i - 1], arr[i + 1]);
+      arr[i] = arr[i + 1];
+      arr[i - 1] = arr[i];
+      ans = arr[i];
+    }
+  }
   for (i = 1; i <= len - 1; i++) {
     if (arr[i] == "-") {
       arr[i + 1] = subtract(arr[i - 1], arr[i + 1]);
-    } else if (arr[i] == "+") {
-      arr[i + 1] = sum(arr[i - 1], arr[i + 1]);
-    } else if (arr[i] == "*") {
-      arr[i + 1] = multiply(arr[i - 1], arr[i + 1]);
-    } else if (arr[i] == "/") {
-      arr[i + 1] = divide(arr[i - 1], arr[i + 1]);
+      arr[i] = arr[i + 1];
+      arr[i - 1] = arr[i];
+      ans = arr[i];
     }
   }
-  return arr[len];
+  // for (i = 1; i <= len - 1; i++) {
+  //   if (arr[i] == "-") {
+  //     arr[i + 1] = subtract(arr[i - 1], arr[i + 1]);
+  //   } else if (arr[i] == "+") {
+  //     arr[i + 1] = sum(arr[i - 1], arr[i + 1]);
+  //   } else if (arr[i] == "*") {
+  //     arr[i + 1] = multiply(arr[i - 1], arr[i + 1]);
+  //   } else if (arr[i] == "/") {
+  //     arr[i + 1] = divide(arr[i - 1], arr[i + 1]);
+  //   }
+  // }
+  return ans;
 }
 function sum(a, b) {
   a = parseFloat(a);
@@ -350,3 +383,9 @@ function divide(a, b) {
   return a / b;
 }
 generate_calculator();
+
+// 9 + 7 - 4 / 2 * 4
+
+// 0 1 2 3 4 5 6 7 8
+
+// 9 + 7 - 2 2 8 8 8
